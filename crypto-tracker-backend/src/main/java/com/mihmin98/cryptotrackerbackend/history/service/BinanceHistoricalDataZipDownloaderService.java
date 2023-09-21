@@ -36,6 +36,8 @@ public class BinanceHistoricalDataZipDownloaderService {
 
             buffer.flush();
             zipFileByteArray = buffer.toByteArray();
+
+            return zipFileByteArray;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -43,8 +45,6 @@ public class BinanceHistoricalDataZipDownloaderService {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-
-        return zipFileByteArray;
     }
 
     public List<String[]> extractCsvLinesFromZip(byte[] zipFileByteArray, TradingPair pair, GranularityEnum granularity, long startDate) {

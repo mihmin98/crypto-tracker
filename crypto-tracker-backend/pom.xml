@@ -20,7 +20,8 @@
 		<hibernate-community-dialects.version>6.3.0.Final</hibernate-community-dialects.version>
 		<jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
 		<opencsv.version>5.8</opencsv.version>
-		<mockito-core.version>5.5.0</mockito-core.version>
+		<mockito-core.version>5.2.0</mockito-core.version>
+		<mockito-inline.version>${mockito-core.version}</mockito-inline.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -84,6 +85,13 @@
 			<version>${mockito-core.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>${mockito-inline.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
