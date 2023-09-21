@@ -19,6 +19,8 @@
 		<!-- WARNING: Newer versions of sqlite-jdbc will have errors with GenerationType.IDENTITY generation -->
 		<hibernate-community-dialects.version>6.3.0.Final</hibernate-community-dialects.version>
 		<jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+		<opencsv.version>5.8</opencsv.version>
+		<mockito-core.version>5.5.0</mockito-core.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -68,6 +70,19 @@
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>${jakarta.validation-api.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>${opencsv.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito-core.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

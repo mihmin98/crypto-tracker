@@ -40,9 +40,25 @@ public class TradingPairPrice {
     public static TradingPairPrice of(BinanceHistoricalKlineCsvDTO dto, TradingPair tradingPair) {
         TradingPairPrice tradingPairPrice = new TradingPairPrice();
 
-        tradingPairPrice.getId().setTradingPair(tradingPair);
-        tradingPairPrice.getId().setTimestamp(new Timestamp(dto.getOpenTimestamp()));
+        TimestampTradingPairId id = new TimestampTradingPairId();
+        id.setTradingPair(tradingPair);
+        id.setTimestamp(new Timestamp(dto.getOpenTimestamp()));
+
+        tradingPairPrice.setId(id);
         tradingPairPrice.setPrice(dto.getOpenPrice());
+
+        return tradingPairPrice;
+    }
+
+    public static TradingPairPrice of(Timestamp timestamp, TradingPair tradingPair, BigDecimal price) {
+        TradingPairPrice tradingPairPrice = new TradingPairPrice();
+
+        TimestampTradingPairId id = new TimestampTradingPairId();
+        id.setTimestamp(timestamp);
+        id.setTradingPair(tradingPair);
+
+        tradingPairPrice.setId(id);
+        tradingPairPrice.setPrice(price);
 
         return tradingPairPrice;
     }

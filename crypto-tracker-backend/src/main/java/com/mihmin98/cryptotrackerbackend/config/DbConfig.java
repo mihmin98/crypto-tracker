@@ -13,7 +13,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@PropertySource("persistence.properties")
+@PropertySource("classpath:persistence.properties")
 @Configuration
 @EnableJpaRepositories(basePackages = "com.mihmin98.cryptotrackerbackend.repository")
 public class DbConfig {
@@ -58,6 +58,9 @@ public class DbConfig {
         }
         if (env.getProperty("hibernate.naming.physical-strategy") != null) {
             hibernateProperties.setProperty("hibernate.naming.physical-strategy", env.getProperty("hibernate.naming.physical-strategy"));
+        }
+        if (env.getProperty("hibernate.jdbc.time_zone") != null) {
+            hibernateProperties.setProperty("hibernate.jdbc.time_zone", env.getProperty("hibernate.jdbc.time_zone"));
         }
         return hibernateProperties;
     }
