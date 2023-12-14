@@ -1,4 +1,4 @@
-package com.mihmin98.cryptotrackerbackend.history.dto;
+package com.mihmin98.cryptotrackerbackend.binance.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

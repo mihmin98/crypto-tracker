@@ -1,8 +1,8 @@
-package com.mihmin98.cryptotrackerbackend.history;
+package com.mihmin98.cryptotrackerbackend.binance;
 
 import com.mihmin98.cryptotrackerbackend.enums.CurrencyEnum;
-import com.mihmin98.cryptotrackerbackend.history.service.BinanceHistoricalDataZipDownloaderService;
-import com.mihmin98.cryptotrackerbackend.history.service.HistoricalDataService;
+import com.mihmin98.cryptotrackerbackend.binance.service.BinanceHistoricalDataZipDownloaderService;
+import com.mihmin98.cryptotrackerbackend.binance.service.BinanceDataService;
 import com.mihmin98.cryptotrackerbackend.model.TradingPair;
 import com.mihmin98.cryptotrackerbackend.model.TradingPairPrice;
 import org.junit.jupiter.api.Test;
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class HistoricalDataServiceTests {
+public class BinanceDataServiceTests {
 
     @Autowired
-    private HistoricalDataService historicalDataService;
+    private BinanceDataService binanceDataService;
 
     @Mock
     private BinanceHistoricalDataZipDownloaderService zipDownloaderServiceMock;
@@ -41,11 +41,11 @@ public class HistoricalDataServiceTests {
         expectedTradingPairPriceList.add(TradingPairPrice.of(new Timestamp(1694995200000L), tradingPairBTCUSDT, new BigDecimal("26527.50000000")));
         expectedTradingPairPriceList.add(TradingPairPrice.of(new Timestamp(1695016800000L), tradingPairBTCUSDT, new BigDecimal("26647.45000000")));
 
-        ReflectionTestUtils.setField(historicalDataService, "zipDownloaderService", zipDownloaderServiceMock);
+        ReflectionTestUtils.setField(binanceDataService, "zipDownloaderService", zipDownloaderServiceMock);
         doReturn(null).when(zipDownloaderServiceMock).downloadBinanceHistoricalDataZip(any(), any(), any(), anyLong());
         doReturn(mockedCsvLines).when(zipDownloaderServiceMock).extractCsvLinesFromZip(any(), eq(tradingPairBTCUSDT), any(), anyLong());
 
-        List<TradingPairPrice> returnedTradingPairPriceList = historicalDataService.downloadHistoricalData(tradingPairBTCUSDT, null, null, 0L);
+        List<TradingPairPrice> returnedTradingPairPriceList = binanceDataService.downloadHistoricalData(tradingPairBTCUSDT, null, null, 0L);
 
         assertEquals(expectedTradingPairPriceList.size(), returnedTradingPairPriceList.size());
         for (int i = 0; i < expectedTradingPairPriceList.size(); ++i) {

@@ -1,4 +1,4 @@
-package com.mihmin98.cryptotrackerbackend.history.enums;
+package com.mihmin98.cryptotrackerbackend.binance.enums;
 
 public enum GranularityEnum {
 
