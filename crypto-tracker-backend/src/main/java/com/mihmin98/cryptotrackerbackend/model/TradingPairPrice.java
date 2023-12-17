@@ -1,6 +1,7 @@
 package com.mihmin98.cryptotrackerbackend.model;
 
-import com.mihmin98.cryptotrackerbackend.history.dto.BinanceHistoricalKlineCsvDTO;
+import com.mihmin98.cryptotrackerbackend.binance.dto.BinanceApiKlineDTO;
+import com.mihmin98.cryptotrackerbackend.binance.dto.BinanceHistoricalKlineCsvDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -38,6 +39,19 @@ public class TradingPairPrice {
     }
 
     public static TradingPairPrice of(BinanceHistoricalKlineCsvDTO dto, TradingPair tradingPair) {
+        TradingPairPrice tradingPairPrice = new TradingPairPrice();
+
+        TimestampTradingPairId id = new TimestampTradingPairId();
+        id.setTradingPair(tradingPair);
+        id.setTimestamp(new Timestamp(dto.getOpenTimestamp()));
+
+        tradingPairPrice.setId(id);
+        tradingPairPrice.setPrice(dto.getOpenPrice());
+
+        return tradingPairPrice;
+    }
+
+    public static TradingPairPrice of(BinanceApiKlineDTO dto, TradingPair tradingPair) {
         TradingPairPrice tradingPairPrice = new TradingPairPrice();
 
         TimestampTradingPairId id = new TimestampTradingPairId();

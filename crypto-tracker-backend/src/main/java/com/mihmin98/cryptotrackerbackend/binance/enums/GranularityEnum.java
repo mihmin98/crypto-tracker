@@ -28,4 +28,29 @@ public enum GranularityEnum {
     public String getValue() {
         return value;
     }
+
+    public long getMillis() {
+        return switch (this) {
+            case ONE_SECOND -> 1000L;
+            case ONE_MINUTE -> 60_000L;
+            case THREE_MINUTES -> 180_000L;
+            case FIVE_MINUTES -> 300_000L;
+            case FIFTEEN_MINUTES -> 900_000L;
+            case THIRTY_MINUTES -> 1_800_000L;
+            case ONE_HOUR -> 3_600_000L;
+            case TWO_HOURS -> 7_200_000L;
+            case FOUR_HOURS -> 14_400_000L;
+            case SIX_HOURS -> 21_600_000L;
+            case EIGHT_HOURS -> 28_800_000L;
+            case TWELVE_HOURS -> 43_200_000L;
+            case ONE_DAY -> 86_400_000L;
+            case THREE_DAYS -> 259_200_000L;
+            case ONE_WEEK -> 604_800_000L;
+            case ONE_MONTH -> 2_629_800_000L;
+        };
+    }
+
+    public long getSeconds() {
+        return getMillis() / 1000L;
+    }
 }

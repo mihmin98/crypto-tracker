@@ -38,8 +38,8 @@ public class BinanceDataService {
                 .toList();
     }
 
-    public List<TradingPairPrice> downloadApiData(TradingPair pair, GranularityEnum granularity, long startTimeMillis, Long endTimeMillis) {
-        byte[] klinesJsonByteArray = apiDataDownloaderService.downloadApiDataByteArray(pair, granularity, startTimeMillis, endTimeMillis);
+    public List<TradingPairPrice> downloadApiData(TradingPair pair, GranularityEnum granularity, ZonedDateTime startDateTime, ZonedDateTime endDateTime) {
+        byte[] klinesJsonByteArray = apiDataDownloaderService.downloadApiDataByteArray(pair, granularity, startDateTime, endDateTime);
         List<BinanceApiKlineDTO> dtoList = apiDataDownloaderService.extractKlinesFromByteArray(klinesJsonByteArray);
 
         return dtoList.stream()
@@ -47,17 +47,16 @@ public class BinanceDataService {
                 .toList();
     }
 
-    public List<TradingPairPrice> downloadData(TradingPair pair, IntervalEnum interval, GranularityEnum granularity, long startTimeMillis) {
+    public List<TradingPairPrice> downloadData(TradingPair pair, IntervalEnum interval, GranularityEnum granularity, ZonedDateTime startDateTime) {
         ZonedDateTime currentTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("UTC"));
-        ZonedDateTime startTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startTimeMillis), ZoneId.of("UTC"));
-        long daysDiff = ChronoUnit.DAYS.between(startTime, currentTime);
+        long daysDiff = ChronoUnit.DAYS.between(startDateTime, currentTime);
+        long startTimeMillis = startDateTime.toInstant().toEpochMilli();
 
         if (daysDiff >= 7) {
             return downloadHistoricalData(pair, interval, granularity, startTimeMillis);
         } else {
-            ZonedDateTime endTime = startTime.plusDays(1);
-            long endTimeMillis = endTime.toInstant().toEpochMilli();
-            return downloadApiData(pair, granularity, startTimeMillis, endTimeMillis);
+            ZonedDateTime endDateTime = startDateTime.plusDays(1);
+            return downloadApiData(pair, granularity, startDateTime, endDateTime);
         }
     }
 }

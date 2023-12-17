@@ -6,20 +6,22 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @Embeddable
 public class TradingPair implements Serializable {
 
     @Column(name = "base_currency")
-    private final CurrencyEnum baseCurrency;
+    private CurrencyEnum baseCurrency;
 
     @Column(name = "quote_currency")
-    private final CurrencyEnum quoteCurrency;
+    private CurrencyEnum quoteCurrency;
 
     @Override
     public String toString() {

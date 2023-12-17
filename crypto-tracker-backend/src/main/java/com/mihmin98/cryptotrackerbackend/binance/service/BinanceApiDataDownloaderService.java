@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -26,15 +27,15 @@ public class BinanceApiDataDownloaderService {
     public static final String TIME_ZONE_QUERY_PARAM = "timeZone";
     public static final String LIMIT_QUERY_PARAM = "limit";
 
-    public byte[] downloadApiDataByteArray(TradingPair pair, GranularityEnum granularity, long startTimeMillis, Long endTimeMillis) {
+    public byte[] downloadApiDataByteArray(TradingPair pair, GranularityEnum granularity, ZonedDateTime startDateTime, ZonedDateTime endDateTime) {
         String tradingPairStr = pair.getBaseCurrency().toString() + pair.getQuoteCurrency().toString();
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(BINANCE_KLINES_ENDPOINT)
                 .queryParam(SYMBOL_QUERY_PARAM, tradingPairStr)
                 .queryParam(INTERVAL_QUERY_PARAM, granularity.getValue())
-                .queryParam(START_TIME_QUERY_PARAM, startTimeMillis);
+                .queryParam(START_TIME_QUERY_PARAM, startDateTime.toInstant().toEpochMilli());
 
-        if (endTimeMillis != null) {
-            uriBuilder.queryParam(END_TIME_QUERY_PARAM, endTimeMillis);
+        if (endDateTime != null) {
+            uriBuilder.queryParam(END_TIME_QUERY_PARAM, endDateTime.toInstant().toEpochMilli());
         }
 
         URI uri = uriBuilder.build().toUri();

@@ -17,7 +17,7 @@
 		<java.version>21</java.version>
 		<sqlite-jdbc.version>3.41.2.2</sqlite-jdbc.version>
 		<!-- WARNING: Newer versions of sqlite-jdbc will have errors with GenerationType.IDENTITY generation -->
-		<hibernate-community-dialects.version>6.3.0.Final</hibernate-community-dialects.version>
+		<hibernate-community-dialects.version>6.4.0.Final</hibernate-community-dialects.version>
 		<jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
 		<opencsv.version>5.8</opencsv.version>
 		<mockito-core.version>5.2.0</mockito-core.version>
