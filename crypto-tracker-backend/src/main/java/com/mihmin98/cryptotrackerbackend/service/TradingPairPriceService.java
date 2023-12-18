@@ -139,7 +139,12 @@ public class TradingPairPriceService {
 
     public List<TradingPairPrice> getPriceHistory(TradingPair pair, GranularityEnum granularity, String startDateUTC, String endDateUTC) {
         ZonedDateTime startDateTime = TimeUtils.convertUTCDateToZonedDateTime(startDateUTC);
-        ZonedDateTime endDateTime = TimeUtils.convertUTCDateToZonedDateTime(endDateUTC);
+        ZonedDateTime endDateTime;
+        if (endDateUTC == null) {
+            endDateTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("UTC"));
+        } else {
+            endDateTime = TimeUtils.convertUTCDateToZonedDateTime(endDateUTC);
+        }
 
         return getPriceHistory(pair, granularity, startDateTime, endDateTime);
     }

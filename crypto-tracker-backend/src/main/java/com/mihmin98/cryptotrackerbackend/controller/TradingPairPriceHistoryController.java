@@ -27,7 +27,7 @@ public class TradingPairPriceHistoryController {
             @RequestParam(name = "tradingPair") String tradingPairStr,
             @RequestParam(name = "granularity") String granularityStr,
             @RequestParam(name = "startTime") String startTimeUTC,
-            @RequestParam(name = "endTime") String endTimeUTC) {
+            @RequestParam(name = "endTime", required = false) String endTimeUTC) {
 
         GranularityEnum granularity = GranularityEnum.fromValue(granularityStr);
         TradingPair tradingPair = TradingPair.of(tradingPairStr);
