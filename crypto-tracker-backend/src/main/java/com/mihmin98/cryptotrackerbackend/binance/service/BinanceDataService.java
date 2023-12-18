@@ -39,6 +39,7 @@ public class BinanceDataService {
     }
 
     public List<TradingPairPrice> downloadApiData(TradingPair pair, GranularityEnum granularity, ZonedDateTime startDateTime, ZonedDateTime endDateTime) {
+        // TODO: Add case where more than 1000 entries would be returned
         byte[] klinesJsonByteArray = apiDataDownloaderService.downloadApiDataByteArray(pair, granularity, startDateTime, endDateTime);
         List<BinanceApiKlineDTO> dtoList = apiDataDownloaderService.extractKlinesFromByteArray(klinesJsonByteArray);
 

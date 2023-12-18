@@ -1,5 +1,8 @@
 package com.mihmin98.cryptotrackerbackend.binance.enums;
 
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
 public enum GranularityEnum {
 
     ONE_SECOND("1s"),
@@ -23,6 +26,13 @@ public enum GranularityEnum {
 
     GranularityEnum(String value) {
         this.value = value;
+    }
+
+    public static GranularityEnum fromValue(String s) {
+        return Arrays.stream(values())
+                .filter(g -> g.getValue().equals(s))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No GranularityEnum that has value: " + s));
     }
 
     public String getValue() {

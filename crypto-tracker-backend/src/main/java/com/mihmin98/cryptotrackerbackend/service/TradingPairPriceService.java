@@ -8,6 +8,7 @@ import com.mihmin98.cryptotrackerbackend.model.TradingPairPrice;
 import com.mihmin98.cryptotrackerbackend.repository.TradingPairPriceRepository;
 import com.mihmin98.cryptotrackerbackend.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -94,11 +95,33 @@ public class TradingPairPriceService {
         List<ZonedDateTime> notFoundTimes = new ArrayList<>(requiredTimes);
         notFoundTimes.removeAll(queryResultTimes);
 
-        // Download prices that are not in the database
-        List<TradingPairPrice> downloadedPrices = notFoundTimes.stream()
+        // Compute days to download, and ranges of consecutive days
+        List<ZonedDateTime> daysToDownload = notFoundTimes.stream()
                 .map(t -> t.withHour(0).withMinute(0).withSecond(0))
                 .distinct()
-                .map(t -> downloadHistoricalData(pair, granularity, t, t))
+                .sorted(Comparator.naturalOrder())
+                .toList();
+
+        List<Pair<ZonedDateTime, ZonedDateTime>> dateRanges = new ArrayList<>();
+        for (int i = 0; i < daysToDownload.size(); i++) {
+            ZonedDateTime startDate = daysToDownload.get(i);
+            int addedDays = 0;
+
+            for (int j = i + 1; j < daysToDownload.size(); j++) {
+                if (ChronoUnit.DAYS.between(daysToDownload.get(j - 1), daysToDownload.get(j)) == 1) {
+                    ++addedDays;
+                } else {
+                    break;
+                }
+            }
+
+            dateRanges.add(Pair.of(startDate, daysToDownload.get(i + addedDays)));
+            i += addedDays;
+        }
+
+        // Download prices that are not in the database
+        List<TradingPairPrice> downloadedPrices = dateRanges.stream()
+                .map(dateRangePair -> downloadHistoricalData(pair, granularity, dateRangePair.getFirst(), dateRangePair.getSecond()))
                 .flatMap(List::stream)
                 .toList();
 

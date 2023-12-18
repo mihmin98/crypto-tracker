@@ -31,4 +31,15 @@ public class TradingPair implements Serializable {
     public static TradingPair of(CurrencyEnum baseCurrency, CurrencyEnum quoteCurrency) {
         return new TradingPair(baseCurrency, quoteCurrency);
     }
+
+    public static TradingPair of(String pair) {
+        String[] splitPair = pair.split("/");
+        if (splitPair.length != 2) {
+            throw new IllegalArgumentException("Given pair was not in the format \"baseCurrency/quoteCurrency\"");
+        }
+
+        CurrencyEnum baseCurrency = CurrencyEnum.valueOf(splitPair[0]);
+        CurrencyEnum quoteCurrency = CurrencyEnum.valueOf(splitPair[1]);
+        return of(baseCurrency, quoteCurrency);
+    }
 }
